@@ -1,0 +1,23 @@
+{
+    "manifest_version": 3,
+    "name": "Leetcode Gatcha",
+    "version": "1.0.0",
+    "description": "Launches gatcha animations whenver you solve a leetcode problem",
+    "content_scripts": [
+        {
+            "matches": ["https://leetcode.com/problems/*"],
+            "js": ["content.js"],
+            "run_at": "document_idle"
+        }
+    ],
+    "host_permissions": ["https://leetcode.com/*"],
+    "permissions": [
+        "storage"
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": ["images/gatcha1.png", "images/gatcha2.png"],
+            "matches": ["https://leetcode.com/*"]
+        }
+    ]
+}
