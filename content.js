@@ -138,21 +138,23 @@ function showAnimeGirl() {
 function checkForAccepted() {
   const span = document.querySelector('[data-e2e-locator="submission-result"]');
   if (span?.textContent.trim() === 'Accepted') {
-    showAnimeGirl();
-    observer.disconnect();
+    return true;
   }
+
+  let arr = Array.from(document.body.querySelectorAll('span'));
+  for (let i = 0; i < arr.length; ++i) {
+    if (arr[i].textContent.trim() === 'Daily Coding Challenge Completed!')
+      return true;
+  }
+
+  return false;
 }
 
-const observer = new MutationObserver(muts => {
-  for (const m of muts) {
-    if ([...m.addedNodes].some(n =>
-      n.nodeType === 1 &&
-      n.querySelector?.('[data-e2e-locator="submission-result"]')
-    )) {
-      checkForAccepted();
-      break;
+window.addEventListener('load', () => {
+  const interval = setInterval(() => {
+    if (checkForAccepted()) {
+      clearInterval(interval);
+      showAnimeGirl();
     }
-  }
+  }, 200);
 });
-observer.observe(document.body, { childList: true, subtree: true });
-window.addEventListener('load', checkForAccepted);
